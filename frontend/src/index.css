@@ -17,6 +17,27 @@
   }
 }
 
+@keyframes text-gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animated-gradient-text {
+  animation: text-gradient 3s ease-in-out infinite alternate;
+  /* background: linear-gradient(to right, ); */
+  background-size: 200% auto;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;
 }

@@ -27,37 +27,40 @@ const LandingPage = () => {
 
   return (
     // prev color: bg-[#BDE0FE]
-    <div className="bg-linear-to-r from-cyan-200 via-cyan-100 to-cyan-100 w-full min-h-screen relative overflow-x-hidden">
+    <div className="bg-linear-to-r from-cyan-200 via-cyan-100 to-cyan-50 w-full min-h-screen relative overflow-x-hidden">
       {/* Header */}
-      <Navbar />
+      <Navbar extraClassName="bg-linear-to-r from-cyan-200 via-cyan-100 to-cyan-50 border-none" />
 
       {/* Hero Section */}
       <div className="">
         <div className="w-full min-h-[500px]">
           <div className="container mx-auto px-4 py-20 flex flex-col md:flex-row items-center md:items-start md:justify-between gap-10">
-            <div className="flex flex-col gap-5 md:gap-6 lg:gap-8 text-center md:text-left">
-              <div className="text-4xl md:text-5xl font-semibold leading-tight">
+            <div className="flex flex-col gap-5 md:gap-6 lg:gap-8 text-left">
+              <div className="text-4xl md:text-5xl font-semibold leading-tight font-sans">
                 Collaborate. Share
                 <br />
-                Notes. Learn Together.
+                Notes.{" "}
+                <span className="animated-gradient-text bg-linear-to-r from-blue-600 via-blue-500 to-blue-400 inline-block p-1">
+                  Learn Together.
+                </span>
               </div>
               <div className="text-xl md:text-2xl font-medium leading-tight">
                 Empowering students to connect, chat,
                 <br />
                 and grow through interactive study groups.
               </div>
-              <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-4">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6 mt-4 items-start">
                 <button
                   onClick={handleCTA}
                   type="button"
-                  className="bg-[#FFAFCC] text-white font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base mx-auto md:mx-0 cursor-pointer"
+                  className="bg-[#ff9fc2] text-white font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
                 >
                   Join Now
                 </button>
                 <button
                   onClick={handleCTA}
                   type="button"
-                  className="bg-gray-50 text-black font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base mx-auto md:mx-0 cursor-pointer"
+                  className="bg-gray-50 text-black font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
                 >
                   Explore Groups
                 </button>
@@ -67,7 +70,7 @@ const LandingPage = () => {
               <img
                 src={HERO_IMG}
                 alt="Study group img"
-                className="w-full max-w-md md:max-w-lg h-auto object-cover"
+                className="w-full max-w-lg md:max-w-xl h-auto object-cover"
               />
             </div>
           </div>
@@ -75,8 +78,8 @@ const LandingPage = () => {
       </div>
       {/* Feature section */}
       <div className="bg-gray-50 py-12 text-center  rounded-2xl">
-        <h2 className="text-2xl md:text-3xl font-bold my-8 font-sans">
-          Why StudyVerse?
+        <h2 className="text-2xl md:text-3xl font-semibold my-8 font-sans">
+          Features Make You Shine
         </h2>
 
         {/* First 3 cards */}
@@ -101,10 +104,13 @@ const LandingPage = () => {
           ))}
         </div>
 
+        {/* Testimonials Strip */}
+        <div className=""></div>
+
         {/* How it works section */}
         <div className="container mx-auto px-4 mt-20 text-center">
           <div className="flex flex-col md:flex-row items-center justify-around gap-6 md:gap-8">
-            <img src={HERO_IMG_2} alt="" className="max-h-80" />
+            {/* <img src={HERO_IMG_2} alt="" className="max-h-80" /> */}
             <h2 className="text-2xl md:text-3xl font-sans font-semibold my-8">
               How It Works...
             </h2>
@@ -146,7 +152,7 @@ const LandingPage = () => {
         <p className="text-gray-600 text-base">
           &copy;2025 StudyVerse. All rights reserved.
         </p>
-        <p className="mt-2">Made with...❤️ happy coding.</p>
+        <p className="mt-2">Made with❤️...happy coding.</p>
       </div>
     </div>
   );

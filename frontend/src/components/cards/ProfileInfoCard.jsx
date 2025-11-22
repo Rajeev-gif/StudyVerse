@@ -33,7 +33,7 @@ const ProfileInfoCard = () => {
 
         <button
           onClick={handleLogout}
-          className="text-xs sm:text-sm text-red-500 hover:text-red-600 font-medium"
+          className="text-xs sm:text-sm text-red-500 hover:text-red-600 font-medium cursor-pointer hover:underline"
           aria-label="Logout"
         >
           Logout
@@ -44,7 +44,7 @@ const ProfileInfoCard = () => {
     <div className="flex">
       <button
         onClick={() => setOpenAuthModal(true)}
-        className="bg-linear-to-r from-purple-400 via-purple-500 to-purple-700 text-white font-semibold rounded-full px-4 py-2 sm:px-5 sm:py-2.5 shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm sm:text-base cursor-pointer"
+        className="bg-linear-to-r from-purple-700 via-purple-600 to-purple-500 text-white font-semibold rounded-full px-4 py-2 sm:px-5 sm:py-2.5 shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm sm:text-base cursor-pointer"
         aria-haspopup="dialog"
         aria-expanded={openAuthModal}
       >

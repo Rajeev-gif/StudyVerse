@@ -1,5 +1,6 @@
 const Group = require("../models/Group");
 const User = require("../models/User");
+const Message = require("../models/Message");
 
 // @desc    Create a new group
 // @route   POST /api/group/create
@@ -53,6 +54,8 @@ const joinGroup = async (req, res) => {
         $push: { groupsJoined: group._id },
       });
 
+      res.io.to(groupId).emit("new_member", { userId: req.user._id });
+
       res.status(200).json({ message: "Joined group successfully" });
     } else {
       res.status(400).json({ message: "Already a member of the group" });
@@ -62,8 +65,71 @@ const joinGroup = async (req, res) => {
   }
 };
 
+// @desc    add group member
+// @route   POST /api/group/add-member
+// @access  Private
+const addGroupMember = async (req, res) => {
+  try {
+    const { groupId, memberId } = req.body;
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      res.status(404).json({ message: "Group not found" });
+    }
+
+    const member = await User.findById(memberId);
+    if (!member) {
+      res.status(404).json({ message: "Member not found" });
+    }
+
+    if (!group.members.includes(memberId)) {
+      group.members.push(memberId);
+      await group.save();
+
+      await User.findByIdAndUpdate(memberId, {
+        $push: { groupsJoined: group._id },
+      });
+
+      res.status(200).json({ message: "Member added successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// @desc    remove group member (only by admin/creator)
+// @route   POST /api/group/remove-member
+// @access  Private
+const removeGroupMember = async (req, res) => {
+  try {
+    const { groupId, memberId } = req.body;
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      res.status(404).json({ message: "Group not found" });
+    }
+
+    if (group.createdBy.toString() !== req.user._id.toString()) {
+      res.status(403).json({ message: "Unauthorized" });
+    }
+
+    if (group.members.includes(memberId)) {
+      group.members.pull(memberId);
+      await group.save();
+
+      await User.findByIdAndUpdate(memberId, {
+        $pull: { groupsJoined: group._id },
+      });
+
+      res.status(200).json({ message: "Member removed successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
 // @desc    Get group details
-// @route   GET /api/group/group-details
+// @route   GET /api/group/details
 // @access  Private
 const getGroupDetails = async (req, res) => {
   try {
@@ -85,7 +151,7 @@ const getGroupDetails = async (req, res) => {
 };
 
 // @desc    Get all groups
-// @route   GET /api/group/all-groups
+// @route   GET /api/group/all
 // @access  Private
 const getAllGroups = async (req, res) => {
   try {
@@ -98,8 +164,24 @@ const getAllGroups = async (req, res) => {
   }
 };
 
-// @desc    delete delete group
-// @route   DELETE /api/group/delete-group
+// @desc    Get a groups
+// @route   GET /api/group/:id
+// @access  Private
+const getGroupById = async (req, res) => {
+  try {
+    const group = await Group.findById(req.params.id);
+    if (!group) {
+      res.status(404).json({ message: "Group not found" });
+    }
+
+    res.status(200).json(group);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// @desc    delete group
+// @route   DELETE /api/group/delete
 // @access  Private
 const deleteGroup = async (req, res) => {
   try {
@@ -120,7 +202,36 @@ const deleteGroup = async (req, res) => {
       );
     }
     res.status(200).json({ message: "Group deleted successfully" });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// @desc    leave group
+// @route   DELETE /api/group/leave
+// @access  Private
+const leaveGroup = async (req, res) => {
+  try {
+    const { groupId } = req.body;
+
+    const group = await Group.findById(groupId);
+    if (!group) {
+      res.status(404).json({ message: "Group not found" });
+    }
+
+    if (group.members.includes(req.user._id)) {
+      group.members.pull(req.user._id);
+      await group.save();
+
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { groupsJoined: group._id },
+      });
+
+      res.status(200).json({ message: "Left group successfully" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
 };
 
 module.exports = {
@@ -128,5 +239,9 @@ module.exports = {
   joinGroup,
   getGroupDetails,
   getAllGroups,
+  getGroupById,
   deleteGroup,
+  leaveGroup,
+  addGroupMember,
+  removeGroupMember,
 };

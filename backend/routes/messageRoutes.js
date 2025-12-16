@@ -14,6 +14,6 @@ const router = express.Router();
 router.post("/send/:groupId", protect, sendMessage);
 router.get("/messages/:groupId", protect, getMessages);
 router.put("/edit/:messageId", protect, editMessage);
-router.delete("/delete/:groupId", protect, deleteMessage);
+router.delete("/delete/:messageId", protect, deleteMessage);
 
 module.exports = router;

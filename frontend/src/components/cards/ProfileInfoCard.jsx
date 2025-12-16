@@ -1,14 +1,38 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import { Link, useNavigate } from "react-router-dom";
 
-const ProfileInfoCard = () => {
-  // user is null for unauthenticated state; keep as placeholder for now
-  const [user, setUser] = useState(null);
-  const [openAuthModal, setOpenAuthModal] = useState(false);
+const ProfileInfoCard = ({ onLoginClick }) => {
+  const { user, clearUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const getInitials = (name) => {
+    if (!name) return "";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  };
+
+  const getFirstName = (name) => {
+    if (!name) return "";
+    return name.split(" ")[0];
+  };
+
+  const handleCTA = () => {
+    if (!user) {
+      setOpenAuthModal(true);
+    } else {
+      navigate("/dashboard");
+    }
+  };
 
   const handleLogout = () => {
-    // implement logout logic
-    console.log("logout clicked");
+    localStorage.clear();
+    clearUser();
+    navigate("/");
   };
 
   return user ? (
@@ -16,18 +40,18 @@ const ProfileInfoCard = () => {
       <Link to="/user-profile" className="shrink-0">
         <img
           src={
-            user?.avatar ||
+            user?.profileImageUrl ||
             "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
           }
-          alt={user?.name ? `${user.name} avatar` : "User avatar"}
-          className="w-9 h-9 mr-3 border border-gray-200 rounded-full object-cover cursor-pointer"
+          alt={getFirstName(user?.name) || ""}
+          className="w-10 h-10 mr-3 border border-gray-200 rounded-full object-cover cursor-pointer"
         />
       </Link>
 
       <div className="flex flex-col min-w-0">
         <Link to="/user-profile" className="truncate">
           <div className="text-sm sm:text-base font-semibold text-gray-900 truncate hover:underline">
-            {user?.name || "Steve"}
+            {getFirstName(user?.name)}
           </div>
         </Link>
 
@@ -43,10 +67,11 @@ const ProfileInfoCard = () => {
   ) : (
     <div className="flex">
       <button
-        onClick={() => setOpenAuthModal(true)}
+        onClick={onLoginClick}
         className="bg-linear-to-r from-purple-700 via-purple-600 to-purple-500 text-white font-semibold rounded-full px-4 py-2 sm:px-5 sm:py-2.5 shadow-md hover:shadow-lg transition flex items-center gap-2 text-sm sm:text-base cursor-pointer"
         aria-haspopup="dialog"
-        aria-expanded={openAuthModal}
+        aria-expanded="false"
+        aria-controls="auth-modal"
       >
         {/* you can replace with an icon on small screens if desired */}
         <span className="truncate">Login / Signup</span>

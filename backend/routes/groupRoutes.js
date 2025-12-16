@@ -20,9 +20,9 @@ router.post("/join", protect, joinGroup);
 router.post("/add-member", protect, addGroupMember);
 router.post("/remove-member", protect, removeGroupMember);
 router.get("/details", protect, getGroupDetails);
-router.get("/:id", protect, getGroupById);
 router.get("/all", protect, getAllGroups);
-router.delete("/delete", protect, deleteGroup);
-router.delete("/leave", protect, leaveGroup);
+router.get("/:groupId", protect, getGroupById);
+router.delete("/delete/:groupId", protect, deleteGroup);
+router.delete("/leave/:grouoId", protect, leaveGroup);
 
 module.exports = router;

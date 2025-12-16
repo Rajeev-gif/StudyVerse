@@ -16,6 +16,8 @@ require("./models/Message");
 // Routes
 const authRoutes = require("./routes/authRoutes");
 const groupRoutes = require("./routes/groupRoutes");
+const messageRoutes = require("./routes/messageRoutes");
+const noteRoutes = require("./routes/noteRoutes");
 const { protect } = require("./middlewares/authMiddleware");
 
 const app = express();
@@ -53,10 +55,11 @@ connectDB();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/group", groupRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/note", protect, noteRoutes);
 
 // Serve uploads folder statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads/pfp")));
-app.use("/upload-note", express.static(path.join(__dirname, "uploads/notes")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // SOCKET.IO HANDLER (THIS IS WHERE YOUR LOGIC GOES)
 io.on("connection", (socket) => {

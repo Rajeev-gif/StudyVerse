@@ -70,6 +70,10 @@
   @apply bg-linear-to-r from-gray-600 via-black to-gray-700 text-transparent bg-clip-text inline-block;
 }
 
+.btn-primary {
+  @apply bg-[#ff9fc2] text-white font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer;
+}
+
 .input-box {
-  @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-4 mt-3 border-gray-100 outline-none focus-within:border-orange-300;
+  @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-3 mt-3 border-gray-100 outline-none focus-within:border-blue-200;
 }

@@ -24,11 +24,12 @@ export const uploadImage = async (imageFile) => {
   }
 };
 
-export const uploadNote = async (noteFile, groupId) => {
+export const uploadNote = async (file, groupId, title) => {
   const formData = new FormData();
 
-  // Append note file to the form data
-  formData.append("note", noteFile);
+  // Append note file and title to the form data
+  formData.append("noteFile", file);
+  formData.append("title", title);
 
   try {
     const response = await axiosInstance.post(
@@ -38,7 +39,6 @@ export const uploadNote = async (noteFile, groupId) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        params: { groupId },
       }
     );
     return response.data;

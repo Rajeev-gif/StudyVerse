@@ -1,12 +1,13 @@
 const Group = require("../models/Group");
 const Note = require("../models/Note");
+const User = require("../models/User");
 
 // @desc    upload a new note
 // @route   POST /api/note/upload/:groupId
 // @access  Private
 const uploadNote = async (req, res) => {
   try {
-    const { title, groupId } = req.body;
+    const groupId = req.params.id;
     const uploadedBy = req.user.id;
 
     if (!req.file) {
@@ -18,18 +19,17 @@ const uploadNote = async (req, res) => {
       return res.status(404).json({ message: "Group not found" });
     }
 
-    const newNote = new Note({
-      title,
-      fileUrl: `/upload-note/${req.file.filename}`,
+    const newNote = await Note.create({
+      title: req.body.title || req.file.originalname,
+      noteUrl: `/uploads/notes/${req.file.filename}`,
       uploadedBy,
       group: groupId,
     });
 
     group.notes.push(newNote._id);
-    await newNote.save();
     await group.save();
 
-    req.io.to(groupId).emit("new_note", newNote);
+    req.io.to(groupId.toString()).emit("new_note", newNote);
 
     res.status(201).json(newNote);
   } catch (error) {
@@ -42,9 +42,13 @@ const uploadNote = async (req, res) => {
 // @access  Private
 const getAllNotes = async (req, res) => {
   try {
-    const { groupId } = req.params;
+    const groupId = req.params.id;
 
-    const group = await Group.findById(groupId).populate("notes");
+    const group = await Group.findById(groupId).populate({
+      path: "notes",
+      populate: { path: "uploadedBy", select: "_id username" },
+    });
+
     if (!group) {
       return res.status(404).json({ message: "Group not found" });
     }
@@ -68,6 +72,27 @@ const getNoteById = async (req, res) => {
     }
 
     res.status(200), json(note);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+// @desc    get recent notes
+// @route   GET /api/note/recent
+// @access  Private
+const getRecentNotes = async (req, res) => {
+  try {
+    const userId = req.user.id; // From auth middleware
+    const user = await User.findById(userId).populate("groupsJoined");
+    const groupIds = user.groupsJoined.map((g) => g._id);
+
+    const recentNotes = await Note.find({ group: { $in: groupIds } })
+      .populate("uploadedBy", "username profileImageUrl")
+      .populate("group", "name")
+      .sort({ createdAt: -1 })
+      .limit(10);
+
+    res.status(200).json(recentNotes);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
@@ -109,4 +134,10 @@ const deleteNote = async (req, res) => {
   }
 };
 
-module.exports = { uploadNote, getAllNotes, getNoteById, deleteNote };
+module.exports = {
+  uploadNote,
+  getAllNotes,
+  getNoteById,
+  getRecentNotes,
+  deleteNote,
+};

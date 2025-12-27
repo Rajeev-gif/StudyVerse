@@ -19,6 +19,7 @@ const groupRoutes = require("./routes/groupRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const { protect } = require("./middlewares/authMiddleware");
+const { saveMessage } = require("./controllers/messageController"); // Import here
 
 const app = express();
 
@@ -66,7 +67,10 @@ io.on("connection", (socket) => {
   console.log("A User connected: ", socket.id);
 
   socket.on("join_group", (groupId) => {
-    socket.join(groupId);
+    const room = groupId.toString();
+    socket.join(room);
+    console.log(`Socket ${socket.id} joined room ${groupId}`);
+    console.log("Rooms:", socket.rooms);
   });
 
   socket.on("you_are_online", (userId) => {
@@ -78,8 +82,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
-    const { groupId, message } = data;
-    socket.to(groupId).emit("receive_message", message);
+    io.to(data.groupId).emit("receive_message", data);
   });
 
   socket.on("typing", (groupId) => {
@@ -96,6 +99,6 @@ io.on("connection", (socket) => {
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

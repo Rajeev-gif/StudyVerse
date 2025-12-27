@@ -21,8 +21,8 @@ router.post("/add-member", protect, addGroupMember);
 router.post("/remove-member", protect, removeGroupMember);
 router.get("/details", protect, getGroupDetails);
 router.get("/all", protect, getAllGroups);
-router.get("/:groupId", protect, getGroupById);
-router.delete("/delete/:groupId", protect, deleteGroup);
-router.delete("/leave/:grouoId", protect, leaveGroup);
+router.get("/:id", protect, getGroupById);
+router.delete("/delete/:id", protect, deleteGroup);
+router.delete("/leave/:id", protect, leaveGroup);
 
 module.exports = router;

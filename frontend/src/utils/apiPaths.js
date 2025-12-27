@@ -8,6 +8,7 @@ export const API_PATHS = {
     REGISTER: "/api/auth/register",
     LOGIN: "/api/auth/login",
     GET_PROFILE: "/api/auth/profile",
+    SEARCH_USER: (query) => `api/auth/user/search?query=${query}`,
   },
 
   UPLOAD: {
@@ -35,9 +36,10 @@ export const API_PATHS = {
   },
 
   NOTE: {
-    UPLOAD: (id) => `/api/notes/upload/${id}`,
+    UPLOAD: (id) => `/api/note/upload/${id}`,
     GET_NOTES: (id) => `api/note/notes/${id}`,
     GET_NOTE_BY_ID: `api/note/search/find`,
+    GET_RECENT_NOTES: "/api/note/recent",
     DELETE_NOTE: (id) => `api/note/delete/${id}`,
   },
 };

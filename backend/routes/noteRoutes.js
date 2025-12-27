@@ -3,6 +3,7 @@ const {
   uploadNote,
   getAllNotes,
   getNoteById,
+  getRecentNotes,
   deleteNote,
 } = require("../controllers//noteController");
 
@@ -12,14 +13,10 @@ const { uploadNotes } = require("../middlewares/uploadMiddleware");
 const router = express.Router();
 
 // message routes
-router.post(
-  "/upload/:groupId",
-  protect,
-  uploadNotes.single("noteFile"),
-  uploadNote
-);
-router.get("/notes/:groupId", protect, getAllNotes);
+router.post("/upload/:id", protect, uploadNotes.single("noteFile"), uploadNote);
+router.get("/notes/:id", protect, getAllNotes);
 router.get("/search/find", protect, getNoteById);
-router.delete("/delete/:noteId", protect, deleteNote);
+router.get("/recent", protect, getRecentNotes);
+router.delete("/delete/:id", protect, deleteNote);
 
 module.exports = router;

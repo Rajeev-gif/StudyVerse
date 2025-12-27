@@ -18,6 +18,18 @@ export const getInitials = (title) => {
 
 export const formatDate = (dateString) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
+  const date = new Date(dateString);
 
-  return new Date(dateString), toLocaleDateString(undefined, options);
+  // Check if the date is valid before formatting
+  if (isNaN(date.getTime())) {
+    console.error("Invalid date string provided:", dateString);
+    return "Invalid Date";
+  }
+
+  return date.toLocaleDateString(undefined, options);
+};
+
+export const getFirstName = (name) => {
+  if (!name) return "";
+  return name.split(" ")[0];
 };

@@ -7,9 +7,9 @@ const User = require("../models/User");
 // @access  Private
 const sendMessage = async (req, res) => {
   try {
-    const { groupId } = req.params;
     const { content } = req.body;
     const senderId = req.user.id;
+    const groupId = req.params.id;
 
     const group = await Group.findById(groupId);
     if (!group) {
@@ -18,22 +18,15 @@ const sendMessage = async (req, res) => {
 
     const newMessage = new Message({
       sender: senderId,
-      group: groupId,
+      group: group._id,
       content,
     });
 
     await newMessage.save();
 
-    await Group.findByIdAndUpdate(groupId, {
+    await Group.findByIdAndUpdate(group._id, {
       $push: { messages: newMessage._id },
     });
-
-    // const newMessage = await Message.create({
-    //   sender: senderId,
-    //   group: groupId,
-    //   content,
-    // });
-
     // Populate sender info for frontend display
     const populatedMessage = await Message.findById(newMessage._id).populate(
       "sender",
@@ -41,7 +34,7 @@ const sendMessage = async (req, res) => {
     );
 
     // Emit the new message to all group members via Socket.io
-    req.io.to(groupId).emit("receive_message", populatedMessage);
+    req.io.to(group._id.toString()).emit("receive_message", populatedMessage);
 
     res.status(201).json(populatedMessage);
   } catch (error) {
@@ -54,14 +47,13 @@ const sendMessage = async (req, res) => {
 // @access  Private
 const getMessages = async (req, res) => {
   try {
-    const { groupId } = req.params;
-
+    const groupId = req.params.id;
     const group = await Group.findById(groupId);
     if (!group) {
       return res.status(404).json({ message: "Group not found" });
     }
 
-    const messages = await Message.find({ group: groupId })
+    const messages = await Message.find({ group: group._id })
       .populate("sender", "username profileImageUrl")
       .sort({ createdAt: 1 }); //oldest to newest
 
@@ -76,17 +68,17 @@ const getMessages = async (req, res) => {
 // @access  Private
 const editMessage = async (req, res) => {
   try {
-    const { messageId } = req.params;
+    const messageId = req.params.id;
     const { content } = req.body;
     const senderId = req.user.id;
 
     const message = await Message.findById(messageId);
     if (!message) {
-      res.status(404).json({ message: "Message not found" });
+      return res.status(404).json({ message: "Message not found" });
     }
 
     if (message.sender.toString() !== senderId) {
-      res.status(403).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     await Message.findByIdAndUpdate(messageId, { content });
@@ -112,9 +104,9 @@ const deleteMessage = async (req, res) => {
     const { messageId } = req.params;
     const userId = req.user.id;
 
-    const message = await Message.findById(messageId);
+    const message = await Message.findById(messageId).populate("group");
     if (!message) {
-      res.status(404).json({ message: "Message not found" });
+      return res.status(404).json({ message: "Message not found" });
     }
 
     if (
@@ -137,4 +129,9 @@ const deleteMessage = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage, getMessages, editMessage, deleteMessage };
+module.exports = {
+  sendMessage,
+  getMessages,
+  editMessage,
+  deleteMessage,
+};

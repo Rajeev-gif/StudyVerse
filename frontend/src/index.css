@@ -17,6 +17,31 @@
   }
 }
 
+/* .dark body {
+  background-color: #1f2937 !important;
+  color: white !important;
+} */
+
+/* Light mode by default */
+/* :root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+/* Dark mode variables - but let Tailwind handle the styling */
+/* .dark {
+  --background-color: #121212;
+  --text-color: #ffffff; 
+} */
+
+/* Apply the variables to the body or main app container
+.body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+} */
+
 @keyframes text-gradient {
   0%,
   100% {
@@ -51,6 +76,21 @@
   background: transparent;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
 @layer utilities {
   @keyframes text-shine {
     0% {
@@ -76,4 +116,20 @@
 
 .input-box {
   @apply w-full flex justify-between gap-3 text-sm text-black bg-gray-50/50 rounded px-4 py-3 mb-3 mt-3 border-gray-100 outline-none focus-within:border-blue-200;
+}
+
+/* Custom scrollbar for chat feed */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

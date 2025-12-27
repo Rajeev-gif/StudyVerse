@@ -48,13 +48,13 @@ const LandingPage = () => {
 
     return (
       <div className="relative w-full max-w-md mx-auto">
-        <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 transition-all duration-500 ease-in-out">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 transition-all duration-500 ease-in-out">
           <div className="flex items-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-12 h-12 bg-linear-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
               {testimonial.name.charAt(0)}
             </div>
             <div className="ml-4">
-              <h4 className="font-semibold text-gray-900 text-left">
+              <h4 className="font-semibold text-gray-900 dark:text-white text-left">
                 {testimonial.name}
               </h4>
               <div className="flex text-yellow-400">
@@ -66,7 +66,9 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-          <p className="text-gray-700 italic">"{testimonial.feedback}"</p>
+          <p className="text-gray-700 dark:text-gray-300 italic">
+            "{testimonial.feedback}"
+          </p>
         </div>
 
         {/* Dots indicator */}
@@ -76,7 +78,9 @@ const LandingPage = () => {
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`w-3 h-3 rounded-full transition-colors cursor-pointer ${
-                index === currentIndex ? "bg-blue-500" : "bg-gray-300"
+                index === currentIndex
+                  ? "bg-blue-500"
+                  : "bg-gray-300 dark:bg-gray-600"
               }`}
             />
           ))}
@@ -87,11 +91,11 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="bg-linear-to-r from-cyan-200 via-cyan-100 to-cyan-50 w-full min-h-screen relative overflow-x-hidden">
+      <div className="bg-linear-to-r dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 dark:text-white from-cyan-200 via-cyan-100 to-cyan-50  w-full min-h-screen relative overflow-x-hidden">
         {/* Header */}
         <Navbar
           onOpenModal={() => setOpenAuthModal(true)}
-          extraClassName="bg-linear-to-r from-cyan-200 via-cyan-100 to-cyan-50 border-none"
+          extraClassName="dark:bg-gray-900 dark:border-gray-700"
         />
 
         {/* Hero Section */}
@@ -99,7 +103,7 @@ const LandingPage = () => {
           <div className="w-full min-h-[500px]">
             <div className="container mx-auto px-4 py-20 flex flex-col md:flex-row items-center md:items-start md:justify-between gap-10">
               <div className="flex flex-col gap-5 md:gap-6 lg:gap-8 text-left">
-                <div className="text-4xl md:text-5xl font-semibold leading-tight font-sans">
+                <div className="text-4xl md:text-5xl font-semibold leading-tight font-sans text-black dark:text-white">
                   Collaborate. Share
                   <br />
                   Notes.{" "}
@@ -107,7 +111,7 @@ const LandingPage = () => {
                     Learn Together.
                   </span>
                 </div>
-                <div className="text-xl md:text-2xl font-medium leading-tight">
+                <div className="text-xl md:text-2xl font-medium leading-tight text-gray-700 dark:text-gray-300">
                   Empowering students to connect, chat,
                   <br />
                   and grow through interactive study groups.
@@ -116,14 +120,14 @@ const LandingPage = () => {
                   <button
                     onClick={handleCTA}
                     type="button"
-                    className="bg-[#ff9fc2] text-white font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
+                    className="bg-[#ff9fc2] dark:bg-[#fd669d] dark:hover:bg-[#fa3e83] text-white font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
                   >
                     Join Now
                   </button>
                   <button
                     onClick={handleCTA}
                     type="button"
-                    className="bg-gray-50 text-black font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
+                    className="bg-gray-50 dark:hover:bg-gray-100 text-black font-semibold rounded-full px-4 py-2 sm:px-8 sm:py-2.5 shadow-md hover:shadow-lg transition text-sm sm:text-base w-auto sm:w-auto cursor-pointer"
                   >
                     Explore Groups
                   </button>
@@ -140,8 +144,8 @@ const LandingPage = () => {
           </div>
         </div>
         {/* Feature section */}
-        <div className="bg-gray-50 py-12 text-center  rounded-2xl">
-          <h2 className="text-2xl md:text-3xl font-semibold my-8 font-sans">
+        <div className="bg-gray-50 dark:bg-gray-900 py-12 text-center rounded-2xl">
+          <h2 className="text-2xl md:text-3xl font-semibold my-8 font-sans text-gray-900 dark:text-white">
             Features Make You Shine
           </h2>
 
@@ -150,17 +154,17 @@ const LandingPage = () => {
             {APP_FEATURES.slice(0, 3).map((feature) => (
               <div
                 key={feature.id}
-                className="flex flex-col items-center text-center border-4 border-blue-200 rounded-2xl p-6 bg-linear-to-r from-blue-100 to-blue-50 shadow-blue-100 shadow-md hover:shadow-lg transition"
+                className="flex flex-col items-center text-center border-4 border-blue-200 dark:border-blue-700 rounded-2xl p-6 bg-linear-to-r from-blue-100 to-blue-50 dark:from-gray-800 dark:to-gray-700 shadow-blue-100 dark:shadow-blue-900 shadow-md hover:shadow-lg transition"
               >
                 <span className="text-5xl md:text-6xl mb-4 text-blue-500 flex justify-center">
                   {feature.id === "01" && <FaUserGroup />}
                   {feature.id === "02" && <TbNotes />}
                   {feature.id === "03" && <MdChat />}
                 </span>
-                <h3 className="text-2xl md:text-3xl font-semibold mb-2">
+                <h3 className="text-2xl md:text-3xl font-semibold mb-2 text-gray-900 dark:text-white">
                   {feature.title}
                 </h3>
-                <p className="text-md md:text-lg text-gray-700 font-medium">
+                <p className="text-md md:text-lg text-gray-700 dark:text-gray-300 font-medium">
                   {feature.description}
                 </p>
               </div>
@@ -169,7 +173,7 @@ const LandingPage = () => {
 
           {/* Testimonials Section */}
           <div className="container mx-auto px-4 mt-16 text-center">
-            <h2 className="text-2xl md:text-3xl font-semibold my-8 font-sans">
+            <h2 className="text-2xl md:text-3xl font-semibold my-8 font-sans text-gray-900 dark:text-white">
               What Our Users Say
             </h2>
 
@@ -185,14 +189,14 @@ const LandingPage = () => {
                 {Testimonials.map((testimonial) => (
                   <div
                     key={testimonial.id}
-                    className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
+                    className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-shadow"
                   >
                     <div className="flex items-center mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                      <div className="w-12 h-12 bg-linear-to-r from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
                         {testimonial.name.charAt(0)}
                       </div>
                       <div className="ml-4">
-                        <h4 className="font-semibold text-gray-900 text-left">
+                        <h4 className="font-semibold text-gray-900 dark:text-white text-left">
                           {testimonial.name}
                         </h4>
                         <div className="flex text-yellow-400">
@@ -207,7 +211,7 @@ const LandingPage = () => {
                         </div>
                       </div>
                     </div>
-                    <p className="text-gray-700 italic">
+                    <p className="text-gray-700 dark:text-gray-300 italic">
                       "{testimonial.feedback}"
                     </p>
                   </div>
@@ -230,7 +234,7 @@ const LandingPage = () => {
               <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8">
                 {APP_FEATURES.slice(3).map((feature, idx, arr) => (
                   <React.Fragment key={feature.id}>
-                    <div className="flex flex-col items-center text-center py-6 md:py-10 border-4 border-blue-200 rounded-2xl p-6 bg-linear-to-r from-blue-100 to-blue-50 shadow-blue-100 shadow-md hover:shadow-lg transition w-full md:w-1/3">
+                    <div className="flex flex-col items-center text-center py-6 md:py-10 border-4 border-blue-200 rounded-2xl p-6 bg-linear-to-r dark:from-gray-800 dark:to-gray-700 dark:shadow-blue-900 dark:border-blue-700 from-blue-100 to-blue-50 shadow-blue-100 shadow-md hover:shadow-lg transition w-full md:w-1/3">
                       <span className="text-4xl md:text-5xl mb-3 text-blue-500">
                         {feature.id === "04" && <PiUserCircleDuotone />}
                         {feature.id === "05" && <FaUserGroup />}
@@ -258,7 +262,7 @@ const LandingPage = () => {
 
         {/* Footer */}
         <div className="py-6 text-center">
-          <p className="text-gray-600 text-base">
+          <p className="text-gray-600 text-base dark:text-gray-200">
             &copy;2025 StudyVerse. All rights reserved.
           </p>
           <p className="mt-2">Made with❤️...happy coding.</p>

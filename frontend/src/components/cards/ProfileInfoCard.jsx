@@ -43,7 +43,7 @@ const ProfileInfoCard = ({ onLoginClick }) => {
             user?.profileImageUrl ||
             "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
           }
-          alt={getFirstName(user?.name) || ""}
+          alt={getFirstName(user?.username) || ""}
           className="w-10 h-10 mr-3 border border-gray-200 rounded-full object-cover cursor-pointer"
         />
       </Link>
@@ -57,7 +57,7 @@ const ProfileInfoCard = ({ onLoginClick }) => {
 
         <button
           onClick={handleLogout}
-          className="text-xs sm:text-sm text-red-500 hover:text-red-600 font-medium cursor-pointer hover:underline"
+          className="text-xs sm:text-sm text-red-500 hover:text-red-600 transition font-medium cursor-pointer hover:underline"
           aria-label="Logout"
         >
           Logout

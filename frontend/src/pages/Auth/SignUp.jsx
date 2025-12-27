@@ -88,8 +88,8 @@ const SignUp = ({ setCurrentPage }) => {
           <Input
             value={fullName}
             onChange={({ target }) => setFullName(target.value)}
-            label="Full Name"
-            placeholder="John"
+            label="Username"
+            placeholder="John Doe"
             type="text"
           />
 

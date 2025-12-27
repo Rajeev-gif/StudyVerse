@@ -4,25 +4,29 @@ import { Toaster } from "react-hot-toast";
 
 import LandingPage from "./pages/LandingPage";
 import Dashboard from "./pages/Home/Dashboard";
-import Groups from "./pages/Home/Groups";
 import GroupDetial from "./pages/GroupDetail/GroupDetail";
 import UserProfil from "./pages/Auth/UserProfile";
 import UserProvider from "./context/userContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import GroupChat from "./pages/GroupDetail/GroupChat";
 
 const App = () => {
   return (
     <UserProvider>
-      <div>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/groups" element={<Groups />} />
-            <Route path="/group-detail" element={<GroupDetial />} />
-            <Route path="/user-profile" element={<UserProfil />} />
-          </Routes>
-        </Router>
-      </div>
+      <ThemeProvider>
+        <div>
+          <Router>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/group-chat/:groupId" element={<GroupChat />} />
+              <Route path="/group-detail/:groupId" element={<GroupDetial />} />
+              <Route path="/user-profile" element={<UserProfil />} />
+            </Routes>
+          </Router>
+          <Toaster position="top-center" reverseOrder={false} />
+        </div>
+      </ThemeProvider>
     </UserProvider>
   );
 };

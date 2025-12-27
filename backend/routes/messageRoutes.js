@@ -11,9 +11,9 @@ const { protect } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 // message routes
-router.post("/send/:groupId", protect, sendMessage);
-router.get("/messages/:groupId", protect, getMessages);
-router.put("/edit/:messageId", protect, editMessage);
-router.delete("/delete/:messageId", protect, deleteMessage);
+router.post("/send/:id", protect, sendMessage);
+router.get("/messages/:id", protect, getMessages);
+router.put("/edit/:id", protect, editMessage);
+router.delete("/delete/:id", protect, deleteMessage);
 
 module.exports = router;

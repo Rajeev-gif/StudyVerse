@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const NoteSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: String,
-  fileURL: { type: String, default: null },
+  noteUrl: { type: String, default: null },
   uploadedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

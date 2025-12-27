@@ -20,6 +20,12 @@ const registerUser = async (req, res) => {
       return res.status(400).josn({ message: "User already exists" });
     }
 
+    // Check if username isn't unique
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
+      return res.status(400).json({ message: "Username not available" });
+    }
+
     // Hash password
     const salt = await bcrypt.genSalt(10);
     const hassedPassword = await bcrypt.hash(password, salt);
@@ -93,4 +99,31 @@ const getUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile };
+// @desc    Get user by ssearch
+// @route   GET /api/auth/user/search?query=
+// @access  Private (Requires JWT)
+const searchUsers = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    if (!query) {
+      return res.status(400).json({ message: "Search query required" });
+    }
+
+    const users = await User.find({
+      username: { $regex: query, $options: "i" },
+    })
+      .select("_id username profileImageUrl")
+      .limit(10);
+
+    req.io.to(groupId).emit("member_added", {
+      username: member.Username,
+    });
+
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, searchUsers };

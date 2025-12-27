@@ -43,7 +43,7 @@ const joinGroup = async (req, res) => {
 
     const group = await Group.findById(groupId);
     if (!group) {
-      res.status(404).json({ message: "Group not found" });
+      return res.status(404).json({ message: "Group not found" });
     }
 
     if (!group.members.includes(req.user._id)) {
@@ -74,12 +74,12 @@ const addGroupMember = async (req, res) => {
 
     const group = await Group.findById(groupId);
     if (!group) {
-      res.status(404).json({ message: "Group not found" });
+      return res.status(404).json({ message: "Group not found" });
     }
 
     const member = await User.findById(memberId);
     if (!member) {
-      res.status(404).json({ message: "Member not found" });
+      return res.status(404).json({ message: "Member not found" });
     }
 
     if (!group.members.includes(memberId)) {
@@ -106,11 +106,11 @@ const removeGroupMember = async (req, res) => {
 
     const group = await Group.findById(groupId);
     if (!group) {
-      res.status(404).json({ message: "Group not found" });
+      return res.status(404).json({ message: "Group not found" });
     }
 
     if (group.createdBy.toString() !== req.user._id.toString()) {
-      res.status(403).json({ message: "Unauthorized" });
+      return res.status(403).json({ message: "Unauthorized" });
     }
 
     if (group.members.includes(memberId)) {
@@ -141,7 +141,7 @@ const getGroupDetails = async (req, res) => {
       .populate("notes");
 
     if (!group) {
-      res.status(404).json({ message: "Gorup not found" });
+      return res.status(404).json({ message: "Gorup not found" });
     }
 
     res.status(200).json(group);
@@ -157,7 +157,9 @@ const getAllGroups = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const groups = await Group.find({ members: userId });
+    const groups = await Group.find({ members: userId }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(groups);
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
@@ -171,7 +173,7 @@ const getGroupById = async (req, res) => {
   try {
     const group = await Group.findById(req.params.id);
     if (!group) {
-      res.status(404).json({ message: "Group not found" });
+      return res.status(404).json({ message: "Group not found" });
     }
 
     res.status(200).json(group);
@@ -189,7 +191,7 @@ const deleteGroup = async (req, res) => {
 
     const group = await Group.findById(groupId);
     if (!group) {
-      res.status(404).json({ message: "Group not found" });
+      return res.status(404).json({ message: "Group not found" });
     }
 
     if (group.createdBy.toString() !== req.user._id.toString()) {

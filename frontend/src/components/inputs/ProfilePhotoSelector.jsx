@@ -50,7 +50,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
 
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-linear-to-r from-blue-600/85 to-blue-700 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center bg-linear-to-r from-blue-600/85 to-blue-700 hover:bg-blue-700 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
             onClick={onChooseFile}
           >
             <LuUpload />
@@ -65,7 +65,7 @@ const ProfilePhotoSelector = ({ image, setImage, preview, setPreview }) => {
           />
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-linear-to-r from-blue-600/85 to-blue-700 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center bg-linear-to-r from-blue-600/85 to-blue-700 hover:bg-blue-700 text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
             onClick={handleRemoveImage}
           >
             <LuTrash />

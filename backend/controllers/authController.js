@@ -43,8 +43,8 @@ const registerUser = async (req, res) => {
       .status(201)
       .cookie("token", generateToken(user._id), {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        nameSite: "strict",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .json({
@@ -81,8 +81,8 @@ const loginUser = async (req, res) => {
       .status(200)
       .cookie("token", generateToken(user._id), {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: true,
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       })
       .json({
@@ -144,8 +144,17 @@ const searchUsers = async (req, res) => {
 // @route   POST /api/auth/logout
 // @access  Public
 const logoutUser = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    secure: true,
+    sameSite: "none",
+  });
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, searchUsers, logoutUser };
+module.exports = {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  searchUsers,
+  logoutUser,
+};

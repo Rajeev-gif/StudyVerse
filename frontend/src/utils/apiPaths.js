@@ -1,6 +1,6 @@
 export const BASE_URL =
   import.meta.env.MODE === "production"
-    ? "http://localhost:3000"
+    ? "https://studyverse-a1fp.onrender.com"
     : "http://localhost:3000";
 
 export const API_PATHS = {

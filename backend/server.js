@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const http = require("http");
 const connectDB = require("./config/db");
+const cookieParser = require("cookie-parser");
 
 const { Server } = require("socket.io");
 
@@ -28,7 +29,7 @@ const server = http.createServer(app);
 // Initialize Socket.io with http server
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: process.env.NODE_ENV === "production" ? "https://your-production-domain.com" : "http://localhost:5173",
     methods: ["GET", "POST"],
   },
 });
@@ -42,7 +43,8 @@ app.use((req, res, next) => {
 // CORS configuration
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.NODE_ENV === "production" ? "https://your-production-domain.com" : "http://localhost:5173",
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -52,6 +54,9 @@ app.use(
 app.use(express.json());
 
 connectDB();
+
+// Cookie Parser
+app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);

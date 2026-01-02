@@ -4,6 +4,7 @@ import { BASE_URL } from "./apiPaths";
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 80000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -13,10 +14,7 @@ const axiosInstance = axios.create({
 // Request interceptor to add auth token
 axiosInstance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem("token");
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
+    // Token is now handled via httpOnly cookies
     return config;
   },
   (error) => {
@@ -32,10 +30,7 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // Handle common errors globally
     if (error.response) {
-      if (error.response.status === 401) {
-        // Handle unauthorized access - e.g., redirect to login
-        window.location.href = "/";
-      } else if (error.response.status === 500) {
+      if (error.response.status === 500) {
         console.error(
           "Server error. Please try again later. the error: ",
           error.response.data

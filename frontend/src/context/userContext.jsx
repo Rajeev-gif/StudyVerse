@@ -10,14 +10,7 @@ const UserProvider = ({ children }) => {
   const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
-    if (hasFetched || user) return;
-
-    const accessToken = localStorage.getItem("token");
-    if (!accessToken) {
-      setLoading(false);
-      setHasFetched(true);
-      return;
-    }
+    if (hasFetched) return;
 
     const fetchUser = async () => {
       try {
@@ -25,11 +18,6 @@ const UserProvider = ({ children }) => {
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user profile: ", error);
-        // On 401, clear invalid token
-        if (error.response?.status === 401) {
-          // localStorage.removeItem("token");
-          clearUser();
-        }
         clearUser();
       } finally {
         setLoading(false);
@@ -42,13 +30,11 @@ const UserProvider = ({ children }) => {
 
   const updateUser = (userData) => {
     setUser(userData);
-    localStorage.setItem("token", userData.token);
     setLoading(false);
   };
 
   const clearUser = () => {
     setUser(null);
-    localStorage.removeItem("token");
   };
 
   return (

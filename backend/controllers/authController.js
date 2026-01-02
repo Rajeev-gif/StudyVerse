@@ -39,13 +39,20 @@ const registerUser = async (req, res) => {
     });
 
     // Return user data with JWT
-    res.status(201).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      profileImageUrl: user.profileImageUrl,
-      token: generateToken(user._id),
-    });
+    res
+      .status(201)
+      .cookie("token", generateToken(user._id), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        nameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      .json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+      });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
@@ -70,13 +77,20 @@ const loginUser = async (req, res) => {
     }
 
     // Return user data with JWT
-    res.status(200).json({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-      profileImageUrl: user.profileImageUrl,
-      token: generateToken(user._id),
-    });
+    res
+      .status(200)
+      .cookie("token", generateToken(user._id), {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      })
+      .json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+      });
   } catch (error) {
     res.status(500).json({ message: "Server Error", error: error.message });
   }
@@ -126,4 +140,12 @@ const searchUsers = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, getUserProfile, searchUsers };
+// @desc    Logout user
+// @route   POST /api/auth/logout
+// @access  Public
+const logoutUser = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+module.exports = { registerUser, loginUser, getUserProfile, searchUsers, logoutUser };

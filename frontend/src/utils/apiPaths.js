@@ -1,12 +1,13 @@
 export const BASE_URL =
   import.meta.env.MODE === "production"
-    ? "https://studyverse-backend.onrender.com"
+    ? "http://localhost:3000"
     : "http://localhost:3000";
 
 export const API_PATHS = {
   AUTH: {
     REGISTER: "/api/auth/register",
     LOGIN: "/api/auth/login",
+    LOGOUT: "/api/auth/logout",
     GET_PROFILE: "/api/auth/profile",
     SEARCH_USER: (query) => `api/auth/user/search?query=${query}`,
   },

@@ -4,6 +4,7 @@ const {
   loginUser,
   getUserProfile,
   searchUsers,
+  logoutUser,
 } = require("../controllers/authController");
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -14,6 +15,7 @@ const router = express.Router();
 // Auth routes
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 router.get("/profile", protect, getUserProfile);
 router.get("/user/search", protect, searchUsers);
 

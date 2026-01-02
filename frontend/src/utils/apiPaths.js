@@ -19,9 +19,9 @@ export const API_PATHS = {
   GROUP: {
     CREATE: "/api/group/create",
     JOIN: "/api/group/join",
-    ADD_MEMBER: "/api/group/add-member",
-    REMOVE_MEMBER: "/api/group/remove-member",
-    GET_DETAILS: "/api/group/details",
+    ADD_MEMBER: (id) => `/api/group/add-member/${id}`,
+    REMOVE_MEMBER: (id) => `/api/group/remove-member/${id}`,
+    GET_DETAILS: (id) => `/api/group/details/${id}`,
     GET_ALL: "/api/group/all",
     GET_ONE: (id) => `/api/group/${id}`,
     DELETE: (id) => `/api/group/delete/${id}`,
@@ -40,6 +40,6 @@ export const API_PATHS = {
     GET_NOTES: (id) => `api/note/notes/${id}`,
     GET_NOTE_BY_ID: `api/note/search/find`,
     GET_RECENT_NOTES: "/api/note/recent",
-    DELETE_NOTE: (id) => `api/note/delete/${id}`,
+    DELETE_NOTE: "api/note/delete",
   },
 };

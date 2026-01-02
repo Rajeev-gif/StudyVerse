@@ -116,9 +116,9 @@ const searchUsers = async (req, res) => {
       .select("_id username profileImageUrl")
       .limit(10);
 
-    req.io.to(groupId).emit("member_added", {
-      username: member.Username,
-    });
+    // req.io.to(groupId).emit("member_added", {
+    //   username: member.Username,
+    // });
 
     res.status(200).json(users);
   } catch (error) {

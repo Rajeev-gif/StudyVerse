@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ProfileInfoCard from "../cards/ProfileInfoCard";
-import DarkModeToggle from "./DarkModeToggle";
+import DarkModeToggle from "../loader/DarkModeToggle";
 import { UserContext } from "../../context/userContext";
 
 import { TbLayoutDashboardFilled } from "react-icons/tb";

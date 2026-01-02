@@ -103,7 +103,7 @@ const getRecentNotes = async (req, res) => {
 // @access  Private
 const deleteNote = async (req, res) => {
   try {
-    const { noteId } = req.params;
+    const { noteId } = req.body;
 
     const note = await Note.findById(noteId);
     if (!note) {

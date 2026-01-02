@@ -11,7 +11,7 @@ const GroupHeader = ({ group }) => {
           {group?.description}
         </p>
       </div>
-      <Link to="/group-detail/:groupId">
+      <Link to={`/group-detail/${group._id}`}>
         <div className="text-2xl md:text-3xl py-3 px-3 rounded-full bg-blue-700 hover:bg-blue-600 transition text-white cursor-pointer hover:shadow-lg flex items-center text-center mr-1 md:mr-2">
           <button className="font-semibold cursor-pointer">
             <IoArrowForwardCircleOutline />

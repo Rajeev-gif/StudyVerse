@@ -101,7 +101,7 @@ const editMessage = async (req, res) => {
 // @access  Private
 const deleteMessage = async (req, res) => {
   try {
-    const { messageId } = req.params;
+    const messageId = req.params.id;
     const userId = req.user.id;
 
     const message = await Message.findById(messageId).populate("group");
@@ -110,7 +110,7 @@ const deleteMessage = async (req, res) => {
     }
 
     if (
-      message.sender.toString() === userId &&
+      message.sender.toString() === userId ||
       message.group.createdBy.toString() === userId
     ) {
       await Message.findByIdAndDelete(messageId);

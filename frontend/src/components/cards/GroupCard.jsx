@@ -50,7 +50,8 @@ const GroupCard = ({
                 <span className="flex gap-1 items-center bg-gray-200 rounded-2xl px-2">
                   <MdPeopleAlt className="text-base md:text-lg" />
                   <p className="text-[10px] md:text-[12px] font-medium">
-                    {members} members
+                    {members}{" "}
+                    <span className="hidden md:inline-block"> members </span>
                   </p>
                 </span>
                 <span className="flex gap-1 items-center">

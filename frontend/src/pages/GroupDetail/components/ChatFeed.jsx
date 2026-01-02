@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import NoteBubble from "./NoteBubble";
 
-const ChatFeed = ({ messages }) => {
+const ChatFeed = ({ messages, onRightClick }) => {
   const endOfMessagesRef = useRef(null);
 
   useEffect(() => {
@@ -19,9 +19,13 @@ const ChatFeed = ({ messages }) => {
     >
       {messages.map((item, index) =>
         item.type === "note" ? (
-          <NoteBubble key={index} note={item} />
+          <NoteBubble handleRightClick={onRightClick} key={index} note={item} />
         ) : (
-          <MessageBubble key={index} message={item} />
+          <MessageBubble
+            handleRightClick={onRightClick}
+            key={index}
+            message={item}
+          />
         )
       )}
       <div ref={endOfMessagesRef} />

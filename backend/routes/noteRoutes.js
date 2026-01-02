@@ -17,6 +17,6 @@ router.post("/upload/:id", protect, uploadNotes.single("noteFile"), uploadNote);
 router.get("/notes/:id", protect, getAllNotes);
 router.get("/search/find", protect, getNoteById);
 router.get("/recent", protect, getRecentNotes);
-router.delete("/delete/:id", protect, deleteNote);
+router.delete("/delete", protect, deleteNote);
 
 module.exports = router;

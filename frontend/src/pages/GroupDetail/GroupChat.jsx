@@ -20,6 +20,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 // Icons
 import { ImAttachment } from "react-icons/im";
 import { IoIosSend } from "react-icons/io";
+import MessageMenu from "./components/MessageMenu";
 
 const GroupChat = () => {
   const { groupId } = useParams();
@@ -32,6 +33,8 @@ const GroupChat = () => {
   const [openNoteModal, setOpenNoteModal] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [notes, setNotes] = useState([]);
+  const [openMessageMenuModal, setOpenMessageMenuModal] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
 
   useEffect(() => {
     socket.connect();
@@ -45,19 +48,32 @@ const GroupChat = () => {
       setMessages((prev) => [...prev, newMsg]);
     });
 
+    socket.on("update_message", (updatedMsg) => {
+      setMessages((prev) =>
+        prev.map((msg) => (msg._id === updatedMsg._id ? updatedMsg : msg))
+      );
+    });
+
+    socket.on("delete_message", (messageId) => {
+      setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
+    });
+
+    socket.on("new_note", (note) => {
+      setMessages((prev) => [
+        ...prev,
+        { type: "note", note, createdAt: new Date(note.createdAt) },
+      ]);
+    });
+
     return () => {
       socket.off("receive_message");
+      socket.off("update_message");
+      socket.off("delete_message");
+      socket.off("new_note");
       socket.off("connect");
       socket.disconnect();
     };
   }, [groupId]);
-
-  useEffect(() => {
-    socket.on("new_note", (note) => {
-      setMessages((prev) => [...prev, { type: "note", note }]);
-    });
-    return () => socket.off("new_note");
-  }, []);
 
   useEffect(() => {
     const fetchGroupAndMessages = async () => {
@@ -128,6 +144,11 @@ const GroupChat = () => {
     setOpenNoteModal(false);
   };
 
+  const messageRightClick = (message) => {
+    setSelectedMessage(message);
+    setOpenMessageMenuModal(true);
+  };
+
   if (loading)
     return (
       <div>
@@ -141,7 +162,11 @@ const GroupChat = () => {
       <GroupHeader group={group} />
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 md:flex-[0.75] flex flex-col">
-          <ChatFeed messages={messages} notes={notes} />
+          <ChatFeed
+            onRightClick={messageRightClick}
+            messages={messages}
+            notes={notes}
+          />
           <div className="p-2 md:p-4 flex items-center gap-2 bg-slate-100">
             <button
               onClick={() => setOpenNoteModal(true)}
@@ -176,6 +201,17 @@ const GroupChat = () => {
         title="Upload a Note"
       >
         <NoteSelector onSelect={handleNoteSelect} groupId={groupId} />
+      </Modal>
+
+      <Modal
+        isOpen={openMessageMenuModal}
+        onClose={() => setOpenMessageMenuModal(false)}
+        title="Edit or Delete Message"
+      >
+        <MessageMenu
+          message={selectedMessage}
+          onClose={() => setOpenMessageMenuModal(false)}
+        />
       </Modal>
       <ToastContainer position="top-right" autoClose={3000} />
     </div>

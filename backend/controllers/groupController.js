@@ -66,11 +66,12 @@ const joinGroup = async (req, res) => {
 };
 
 // @desc    add group member
-// @route   POST /api/group/add-member
+// @route   POST /api/group/add-member/:id
 // @access  Private
 const addGroupMember = async (req, res) => {
   try {
-    const { groupId, memberId } = req.body;
+    const groupId = req.params.id;
+    const { memberId } = req.body;
 
     const group = await Group.findById(groupId);
     if (!group) {
@@ -98,11 +99,12 @@ const addGroupMember = async (req, res) => {
 };
 
 // @desc    remove group member (only by admin/creator)
-// @route   POST /api/group/remove-member
+// @route   POST /api/group/remove-member/:id
 // @access  Private
 const removeGroupMember = async (req, res) => {
   try {
-    const { groupId, memberId } = req.body;
+    const groupId = req.params.id;
+    const { memberId } = req.body;
 
     const group = await Group.findById(groupId);
     if (!group) {
@@ -129,15 +131,15 @@ const removeGroupMember = async (req, res) => {
 };
 
 // @desc    Get group details
-// @route   GET /api/group/details
+// @route   GET /api/group/details/:id
 // @access  Private
 const getGroupDetails = async (req, res) => {
   try {
-    const { groupId } = req.body;
+    const groupId = req.params.id;
 
     const group = await Group.findById(groupId)
-      .populate("createdBy", "Username profileImageUrl")
-      .populate("members", "Username profileImageUrl")
+      .populate("createdBy", "username profileImageUrl")
+      .populate("members", "username profileImageUrl")
       .populate("notes");
 
     if (!group) {
@@ -183,11 +185,11 @@ const getGroupById = async (req, res) => {
 };
 
 // @desc    delete group
-// @route   DELETE /api/group/delete
+// @route   DELETE /api/group/delete/:id
 // @access  Private
 const deleteGroup = async (req, res) => {
   try {
-    const { groupId } = req.body;
+    const groupId = req.params.id;
 
     const group = await Group.findById(groupId);
     if (!group) {
@@ -210,11 +212,11 @@ const deleteGroup = async (req, res) => {
 };
 
 // @desc    leave group
-// @route   DELETE /api/group/leave
+// @route   DELETE /api/group/leave/:id
 // @access  Private
 const leaveGroup = async (req, res) => {
   try {
-    const { groupId } = req.body;
+    const groupId = req.params.id;
 
     const group = await Group.findById(groupId);
     if (!group) {

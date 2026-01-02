@@ -13,7 +13,7 @@ const { uploadPfp } = require("../middlewares/uploadMiddleware");
 const router = express.Router();
 
 // Auth routes
-router.post("/register", registerUser);
+router.post("/register", uploadPfp.single("profileImage"), registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
 router.get("/profile", protect, getUserProfile);
@@ -24,9 +24,14 @@ router.post("/upload-image", uploadPfp.single("profileImage"), (req, res) => {
     return res.status(400).json({ message: "No file uploaded" });
   }
 
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${
-    req.file.filename
-  }`;
+  let imageUrl;
+  if (process.env.NODE_ENV === "production") {
+    // In production, return base64
+    const base64 = req.file.buffer.toString('base64');
+    imageUrl = `data:${req.file.mimetype};base64,${base64}`;
+  } else {
+    imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+  }
 
   res.status(200).json({ imageUrl });
 });

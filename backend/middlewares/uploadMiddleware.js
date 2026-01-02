@@ -2,23 +2,25 @@ const multer = require("multer");
 const path = require("path");
 
 // Configure Storage with dynamic destination
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Determine destination based on field name
-    let uploadPath = "uploads/";
-    if (file.fieldname === "profileImage") {
-      uploadPath += "pfp";
-    } else if (file.fieldname === "noteFile") {
-      uploadPath += "notes";
-    } else {
-      uploadPath += "misc"; // fallback
-    }
-    cb(null, uploadPath);
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+const storage = process.env.NODE_ENV === "production" 
+  ? multer.memoryStorage() // Use memory storage in production
+  : multer.diskStorage({
+      destination: (req, file, cb) => {
+        // Determine destination based on field name
+        let uploadPath = "uploads/";
+        if (file.fieldname === "profileImage") {
+          uploadPath += "pfp";
+        } else if (file.fieldname === "noteFile") {
+          uploadPath += "notes";
+        } else {
+          uploadPath += "misc"; // fallback
+        }
+        cb(null, uploadPath);
+      },
+      filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+      },
+    });
 
 // File Filter for profile images
 const pfpFilter = (req, file, cb) => {

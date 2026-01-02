@@ -12,12 +12,12 @@ const generateToken = (userId) => {
 // @access  Public
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password, profileImageUrl } = req.body;
+    const { username, email, password } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
-      return res.status(400).josn({ message: "User already exists" });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     // Check if username isn't unique
@@ -28,13 +28,26 @@ const registerUser = async (req, res) => {
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
-    const hassedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Handle profile image
+    let profileImageUrl = null;
+    if (req.file) {
+      if (process.env.NODE_ENV === "production") {
+        // In production, store as base64
+        const base64 = req.file.buffer.toString('base64');
+        profileImageUrl = `data:${req.file.mimetype};base64,${base64}`;
+      } else {
+        // In dev, use file path
+        profileImageUrl = `${req.protocol}://${req.get('host')}/uploads/pfp/${req.file.filename}`;
+      }
+    }
 
     // Create User
     const user = await User.create({
       username,
       email,
-      password: hassedPassword,
+      password: hashedPassword,
       profileImageUrl,
     });
 

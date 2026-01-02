@@ -5,7 +5,7 @@ export const uploadImage = async (imageFile) => {
   const formData = new FormData();
 
   // Append image file to the form data
-  formData.append("image", imageFile);
+  formData.append("profileImage", imageFile);
 
   try {
     const response = await axiosInstance.post(

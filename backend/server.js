@@ -34,8 +34,8 @@ const io = new Server(server, {
         ? "https://study-verse-opal.vercel.app"
         : "http://localhost:5173",
     methods: ["GET", "POST"],
+    credentials: true,
   },
-  credentials: true,
 });
 
 // Middleware to attach io to req for controllers (controllers can emit events)

@@ -33,14 +33,15 @@ const registerUser = async (req, res) => {
     // Handle profile image
     let profileImageUrl = null;
     if (req.file) {
-      if (process.env.NODE_ENV === "production") {
-        // In production, store as base64
-        const base64 = req.file.buffer.toString('base64');
-        profileImageUrl = `data:${req.file.mimetype};base64,${base64}`;
-      } else {
-        // In dev, use file path
-        profileImageUrl = `${req.protocol}://${req.get('host')}/uploads/pfp/${req.file.filename}`;
-      }
+      // if (process.env.NODE_ENV === "production") {
+      //   // In production, store as base64
+      //   const base64 = req.file.buffer.toString('base64');
+      //   profileImageUrl = `data:${req.file.mimetype};base64,${base64}`;
+      // } else {
+      //   // In dev, use file path
+      //   profileImageUrl = `${req.protocol}://${req.get('host')}/uploads/pfp/${req.file.filename}`;
+      // }
+      profileImageUrl = req.file.path;
     }
 
     // Create User

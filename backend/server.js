@@ -72,7 +72,7 @@ app.use("/api/message", messageRoutes);
 app.use("/api/note", protect, noteRoutes);
 
 // Serve uploads folder statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // SOCKET.IO HANDLER (THIS IS WHERE YOUR LOGIC GOES)
 io.on("connection", (socket) => {

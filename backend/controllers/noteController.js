@@ -21,7 +21,8 @@ const uploadNote = async (req, res) => {
 
     const newNote = await Note.create({
       title: req.body.title || req.file.originalname,
-      noteUrl: `/uploads/notes/${req.file.filename}`,
+      // noteUrl: `/uploads/notes/${req.file.filename}`,
+      noteUrl: req.file.path,
       uploadedBy,
       group: groupId,
     });

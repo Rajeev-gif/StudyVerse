@@ -92,6 +92,8 @@ const noteStorage = new CloudinaryStorage({
   params: {
     folder: "studyverse/notes",
     allowed_formats: ["pdf", "doc", "docx"],
+    resource_type: "raw", // 🔥 THIS IS IMPORTANT
+    access_mode: "public", // 🔥 MAKE FILE PUBLIC
   },
 });
 

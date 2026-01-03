@@ -37,7 +37,7 @@ const NoteBubble = ({ note }) => {
 
         <div className="flex justify-end">
           <a
-            href={`${BASE_URL}${note.noteUrl}`}
+            href={`${note.noteUrl}`}
             target="_blank"
             rel="noopener noreferrer"
             className={`inline-flex items-center px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${

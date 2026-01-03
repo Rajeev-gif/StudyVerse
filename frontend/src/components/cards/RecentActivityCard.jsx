@@ -56,7 +56,7 @@ const RecentActivityCard = ({
             </div>
             <div className="flex justify-end">
               <a
-                href={`${BASE_URL}${note.noteUrl}`}
+                href={`${note.noteUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition-colors shadow-sm hover:shadow-md"
@@ -82,7 +82,7 @@ const RecentActivityCard = ({
             {uploaderName}
           </p>
           <Link
-            to={`${BASE_URL}${noteUrl}`}
+            to={`${noteUrl}`}
             className="block text-base text-gray-700 hover:text-blue-500 transition-colors mt-1"
           >
             {title}

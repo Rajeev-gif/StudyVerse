@@ -84,16 +84,16 @@ const cloudinary = require("../config/cloudinary");
 
 const pfpStorage = new CloudinaryStorage({
   cloudinary,
-  params: { folder: "studyverse/pfp", allowed_formats: ["jpg", "jpeg", "png"] },
+  params: { folder: "studyverse/pfp", resource_type: "image" },
 });
 
 const noteStorage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "studyverse/notes",
-    allowed_formats: ["pdf", "doc", "docx"],
-    resource_type: "raw", // 🔥 THIS IS IMPORTANT
-    access_mode: "public", // 🔥 MAKE FILE PUBLIC
+    resource_type: "raw", // 🔥 force raw files
+    public_id: (req, file) =>
+      `${Date.now()}-${file.originalname.replace(/\s+/g, "_")}`,
   },
 });
 

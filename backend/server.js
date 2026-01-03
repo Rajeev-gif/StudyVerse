@@ -35,6 +35,7 @@ const io = new Server(server, {
         : "http://localhost:5173",
     methods: ["GET", "POST"],
   },
+  credentials: true,
 });
 
 // Middleware to attach io to req for controllers (controllers can emit events)

@@ -43,7 +43,7 @@ const NoteSelector = ({ onSelect, groupId }) => {
       window.location.reload();
       setTimeout(() => {
         toast.success("Note sent.");
-      }, 1500);
+      }, 2000);
     } catch (err) {
       setError("Upload failed. Try again.");
     } finally {

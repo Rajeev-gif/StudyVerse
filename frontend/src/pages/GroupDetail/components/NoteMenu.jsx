@@ -14,10 +14,12 @@ const NoteMenu = ({ note, onClose }) => {
     );
   }
 
+  const noteId = note._id;
+
   const handleNoteDelete = async () => {
     try {
       await axiosInstance.delete(API_PATHS.NOTE.DELETE_NOTE, {
-        noteId: note?._id,
+        noteId: noteId,
       });
 
       toast.success("Note Deleted.");

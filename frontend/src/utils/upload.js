@@ -1,6 +1,7 @@
 import { API_PATHS } from "./apiPaths";
 import axiosInstance from "./axiosInstance";
 
+/* not needed while using cloudinary
 export const uploadImage = async (imageFile) => {
   const formData = new FormData();
 
@@ -23,6 +24,7 @@ export const uploadImage = async (imageFile) => {
     throw error;
   }
 };
+*/
 
 export const uploadNote = async (file, groupId, title) => {
   const formData = new FormData();

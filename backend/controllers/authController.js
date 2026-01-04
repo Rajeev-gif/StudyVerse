@@ -41,7 +41,7 @@ const registerUser = async (req, res) => {
       //   // In dev, use file path
       //   profileImageUrl = `${req.protocol}://${req.get('host')}/uploads/pfp/${req.file.filename}`;
       // }
-      profileImageUrl = req.file.path;
+      profileImageUrl = req.file?.path;
     }
 
     // Create User

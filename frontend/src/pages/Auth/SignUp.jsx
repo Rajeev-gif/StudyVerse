@@ -44,17 +44,32 @@ const SignUp = ({ setCurrentPage }) => {
 
     // Sign up api call
     try {
-      if (profilePic) {
-        const imageUploadesRes = await uploadImage(profilePic);
-        profileImageUrl = imageUploadesRes.imageUrl || "";
-      }
+      // if (profilePic) {
+      //   const imageUploadesRes = await uploadImage(profilePic);
+      //   profileImageUrl = imageUploadesRes.imageUrl || "";
+      // }
 
-      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-        username: fullName,
-        email,
-        password,
-        profileImageUrl,
-      });
+      // const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+      //   username: fullName,
+      //   email,
+      //   password,
+      //   profileImageUrl,
+      // });
+
+      // now with cloudinary
+      const formData = new FormData();
+      formData.append("username", fullName);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (profilePic) formData.append("profileImage", profilePic);
+
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.REGISTER,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       updateUser(response.data);
       navigate("/dashboard");

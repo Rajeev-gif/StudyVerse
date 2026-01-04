@@ -19,21 +19,21 @@ router.post("/logout", logoutUser);
 router.get("/profile", protect, getUserProfile);
 router.get("/user/search", protect, searchUsers);
 
-router.post("/upload-image", uploadPfp.single("profileImage"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "No file uploaded" });
-  }
+// router.post("/upload-image", uploadPfp.single("profileImage"), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ message: "No file uploaded" });
+//   }
 
-  let imageUrl;
-  if (process.env.NODE_ENV === "production") {
-    // In production, return base64
-    const base64 = req.file.buffer.toString('base64');
-    imageUrl = `data:${req.file.mimetype};base64,${base64}`;
-  } else {
-    imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-  }
+//   let imageUrl;
+//   if (process.env.NODE_ENV === "production") {
+//     // In production, return base64
+//     const base64 = req.file.buffer.toString('base64');
+//     imageUrl = `data:${req.file.mimetype};base64,${base64}`;
+//   } else {
+//     imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+//   }
 
-  res.status(200).json({ imageUrl });
-});
+//   res.status(200).json({ imageUrl });
+// });
 
 module.exports = router;

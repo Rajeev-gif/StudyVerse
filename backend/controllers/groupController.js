@@ -54,7 +54,7 @@ const joinGroup = async (req, res) => {
         $push: { groupsJoined: group._id },
       });
 
-      res.io.to(groupId).emit("new_member", { userId: req.user._id });
+      req.io.to(groupId).emit("new_member", { userId: req.user._id });
 
       res.status(200).json({ message: "Joined group successfully" });
     } else {

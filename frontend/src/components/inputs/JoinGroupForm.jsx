@@ -19,7 +19,9 @@ const JoinGroupForm = ({ onSuccess }) => {
     setError("");
 
     try {
-      await axiosInstance.post(API_PATHS.GROUP.JOIN, { groupId: groupId.trim() });
+      await axiosInstance.post(API_PATHS.GROUP.JOIN, {
+        groupId: groupId.trim(),
+      });
       onSuccess();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to join the group");

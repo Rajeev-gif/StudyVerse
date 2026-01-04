@@ -285,7 +285,7 @@ const GroupDetail = () => {
         <div className="p-4">
           <input
             type="text"
-            placeholder="Enter member username or email"
+            placeholder="Enter User ID"
             value={newMember}
             onChange={(e) => setNewMember(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg mb-4"

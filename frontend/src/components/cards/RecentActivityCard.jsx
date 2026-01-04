@@ -73,7 +73,10 @@ const RecentActivityCard = ({
     <div className="p-4 bg-linear-to-r from-blue-50 to-indigo-100 rounded-2xl shadow-lg border border-blue-200 hover:shadow-xl transition-all duration-300 hover:scale-105">
       <div className="flex items-center">
         <img
-          src={uploaderProfileImage || ""}
+          src={
+            uploaderProfileImage ||
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
+          }
           alt=""
           className="w-12 h-12 mr-4 border-2 border-blue-300 rounded-full object-cover cursor-pointer hover:border-blue-500 transition-colors"
         />

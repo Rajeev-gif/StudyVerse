@@ -40,10 +40,10 @@ const NoteSelector = ({ onSelect, groupId }) => {
       onSelect(response.note);
       setFile(null);
       setTitle("");
-      toast.success("Note sent.");
+      window.location.reload();
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        toast.success("Note sent.");
+      }, 1500);
     } catch (err) {
       setError("Upload failed. Try again.");
     } finally {

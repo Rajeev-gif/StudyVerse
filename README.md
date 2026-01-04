@@ -1,6 +1,6 @@
 ---
 
-# 📚 StudyVerse
+📚 StudyVerse
 
 **StudyVerse** is a full-stack collaborative learning platform that allows students to create study groups, communicate in real time, and share notes and resources securely. It is built to simulate real SaaS-grade architecture with secure authentication, cloud storage, and real-time features.
 

@@ -116,10 +116,7 @@ const deleteNote = async (req, res) => {
       return res.status(404).json({ message: "Group not found" });
     }
 
-    if (
-      note.uploadedBy.toString() === req.user.id &&
-      req.user.id === group.createdBy.toString()
-    ) {
+    if (note.uploadedBy.toString() === req.user.id) {
       await Note.findByIdAndDelete(noteId);
       group.notes.pull(noteId);
       await group.save();

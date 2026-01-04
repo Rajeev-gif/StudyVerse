@@ -5,14 +5,22 @@ import { getFirstName } from "../../../utils/helper";
 
 import { FaArrowRight, FaFileAlt } from "react-icons/fa";
 
-const NoteBubble = ({ note }) => {
+const NoteBubble = ({ note, handleRightClick }) => {
   const { user } = useContext(UserContext);
   const isOwn = note?.uploadedBy?._id === user._id;
 
   const Fname = getFirstName(note.uploadedBy?.username);
 
   return (
-    <div className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-4`}>
+    <div
+      onContextMenu={(e) => {
+        e.preventDefault();
+        if (isOwn) {
+          handleRightClick(note);
+        }
+      }}
+      className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-4`}
+    >
       <div
         className={`max-w-sm px-4 py-3 rounded-2xl shadow-lg transform transition-all duration-300 hover:scale-105 ${
           isOwn

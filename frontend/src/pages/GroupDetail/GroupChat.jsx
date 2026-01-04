@@ -21,6 +21,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { ImAttachment } from "react-icons/im";
 import { IoIosSend } from "react-icons/io";
 import MessageMenu from "./components/MessageMenu";
+import NoteMenu from "./components/NoteMenu";
 
 const GroupChat = () => {
   const { groupId } = useParams();
@@ -35,6 +36,8 @@ const GroupChat = () => {
   const [notes, setNotes] = useState([]);
   const [openMessageMenuModal, setOpenMessageMenuModal] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [openNoteMenuModal, setOpenNoteMenuModal] = useState(false);
+  const [selectedNoteForMenu, setSelectedNoteForMenu] = useState(null);
 
   useEffect(() => {
     socket.connect();
@@ -58,6 +61,10 @@ const GroupChat = () => {
       setMessages((prev) => prev.filter((msg) => msg._id !== messageId));
     });
 
+    socket.on("delete_note", (noteId) => {
+      setMessages((prev) => prev.filter((item) => !(item.type === "note" && item.note._id === noteId)));
+    });
+
     socket.on("new_note", (note) => {
       setMessages((prev) => [
         ...prev,
@@ -69,6 +76,7 @@ const GroupChat = () => {
       socket.off("receive_message");
       socket.off("update_message");
       socket.off("delete_message");
+      socket.off("delete_note");
       socket.off("new_note");
       socket.off("connect");
       socket.disconnect();
@@ -149,6 +157,11 @@ const GroupChat = () => {
     setOpenMessageMenuModal(true);
   };
 
+  const noteRightClick = (note) => {
+    setSelectedNoteForMenu(note);
+    setOpenNoteMenuModal(true);
+  };
+
   if (loading)
     return (
       <div>
@@ -163,7 +176,8 @@ const GroupChat = () => {
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 md:flex-[0.75] flex flex-col">
           <ChatFeed
-            onRightClick={messageRightClick}
+            onMessageRightClick={messageRightClick}
+            onNoteRightClick={noteRightClick}
             messages={messages}
             notes={notes}
           />
@@ -211,6 +225,17 @@ const GroupChat = () => {
         <MessageMenu
           message={selectedMessage}
           onClose={() => setOpenMessageMenuModal(false)}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={openNoteMenuModal}
+        onClose={() => setOpenNoteMenuModal(false)}
+        title="Delete Note"
+      >
+        <NoteMenu
+          note={selectedNoteForMenu}
+          onClose={() => setOpenNoteMenuModal(false)}
         />
       </Modal>
       <ToastContainer position="top-right" autoClose={3000} />

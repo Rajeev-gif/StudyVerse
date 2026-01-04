@@ -19,7 +19,7 @@ const ChatFeed = ({ messages, onMessageRightClick, onNoteRightClick }) => {
     >
       {messages.map((item, index) =>
         item.type === "note" ? (
-          <NoteBubble handleRightClick={onNoteRightClick} key={index} note={item.note} />
+          <NoteBubble handleRightClick={onNoteRightClick} key={index} note={item} />
         ) : (
           <MessageBubble
             handleRightClick={onMessageRightClick}

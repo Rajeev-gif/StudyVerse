@@ -64,7 +64,7 @@ const GroupChat = () => {
     socket.on("delete_note", (noteId) => {
       setMessages((prev) =>
         prev.filter(
-          (item) => !(item.type === "note" && item.note._id === noteId)
+          (item) => !(item.type === "note" && item._id === noteId)
         )
       );
     });

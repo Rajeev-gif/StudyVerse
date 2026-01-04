@@ -205,7 +205,7 @@ const GroupDetail = () => {
                     group.createdBy?.profileImageUrl ||
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png"
                   }
-                  className="w-17 h-17 md:w-20 md:h-20 rounded-full mx-auto md:mx-0"
+                  className="w-17 h-17 md:w-20 md:h-20 rounded-full mx-auto md:mx-0 object-cover"
                   alt="admin image"
                 />
                 <div className="flex flex-col w-full items-center md:items-start mt-2">

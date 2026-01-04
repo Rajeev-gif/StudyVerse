@@ -12,6 +12,8 @@ import NoteSelector from "../../components/inputs/NoteSelector";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import socket from "../../socket/socket";
+import MessageMenu from "./components/MessageMenu";
+import NoteMenu from "./components/NoteMenu";
 
 // Skeleton loader
 import Skeleton from "react-loading-skeleton";
@@ -20,8 +22,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 // Icons
 import { ImAttachment } from "react-icons/im";
 import { IoIosSend } from "react-icons/io";
-import MessageMenu from "./components/MessageMenu";
-import NoteMenu from "./components/NoteMenu";
 
 const GroupChat = () => {
   const { groupId } = useParams();
@@ -62,7 +62,11 @@ const GroupChat = () => {
     });
 
     socket.on("delete_note", (noteId) => {
-      setMessages((prev) => prev.filter((item) => !(item.type === "note" && item.note._id === noteId)));
+      setMessages((prev) =>
+        prev.filter(
+          (item) => !(item.type === "note" && item.note._id === noteId)
+        )
+      );
     });
 
     socket.on("new_note", (note) => {

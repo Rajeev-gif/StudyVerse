@@ -8,11 +8,9 @@ const NoteMenu = ({ note, onClose }) => {
   const { user } = useContext(UserContext);
   const [error, setError] = useState("");
 
-  if (!note || note.uploadedBy._id !== user._id) {
+  if (!note || note?.uploadedBy._id !== user._id) {
     return (
-      <p className="my-2 text-red-500">
-        You can only delete your own notes.
-      </p>
+      <p className="my-2 text-red-500">You can only delete your own notes.</p>
     );
   }
 
@@ -34,7 +32,9 @@ const NoteMenu = ({ note, onClose }) => {
 
   return (
     <div className="p-2">
-      <p className="mb-4 text-gray-700">Are you sure you want to delete this note?</p>
+      <p className="mb-4 text-gray-700">
+        Are you sure you want to delete this note?
+      </p>
       {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
       <button
         type="button"

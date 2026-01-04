@@ -18,9 +18,7 @@ const NoteMenu = ({ note, onClose }) => {
 
   const handleNoteDelete = async () => {
     try {
-      await axiosInstance.delete(API_PATHS.NOTE.DELETE_NOTE, {
-        noteId: noteId,
-      });
+      await axiosInstance.delete(API_PATHS.NOTE.DELETE_NOTE(noteId));
 
       toast.success("Note Deleted.");
       setError("");

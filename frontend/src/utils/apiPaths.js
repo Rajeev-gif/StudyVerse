@@ -41,6 +41,6 @@ export const API_PATHS = {
     GET_NOTES: (id) => `api/note/notes/${id}`,
     GET_NOTE_BY_ID: `api/note/search/find`,
     GET_RECENT_NOTES: "/api/note/recent",
-    DELETE_NOTE: "api/note/delete",
+    DELETE_NOTE: (id) => `api/note/delete/${id}`,
   },
 };
